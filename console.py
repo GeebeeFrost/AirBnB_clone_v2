@@ -10,6 +10,7 @@ from models.state import State
 from models.city import City
 from models.amenity import Amenity
 from models.review import Review
+import re
 
 
 class HBNBCommand(cmd.Cmd):
@@ -115,21 +116,54 @@ class HBNBCommand(cmd.Cmd):
 
     def do_create(self, args):
         """ Create an object of any class"""
-        if not args:
+        cln_reg = r'(?P<name>(?:[a-zA-Z]|_)(?:[a-zA-Z]|\d|_)*)'
+        cln = re.match(cln_reg, args)
+        obj_kwargs = {}
+        if cln is not None:
+            class_name = cln.group('name')
+            str_params = args[len(class_name):].strip()
+            str_reg = r'(?P<string>"([^"]|\")*")'
+            flt_reg = r'(?P<float>[-+]?\d+\.\d+)'
+            int_reg = r'(?P<integer>[-+]?\d+)'
+            param_reg = '{}=({}|{}|{})'.format(
+                    cln_reg, str_reg, flt_reg, int_reg
+                    )
+            params = str_params.split(' ')
+            for param in params:
+                my_param = re.fullmatch(param_reg, param)
+                if my_param:
+                    clname = my_param.group('name')
+                    str_v = my_param.group('string')
+                    flt_v = my_param.group('float')
+                    int_v = my_param.group('integer')
+                    if str_v:
+                        obj_kwargs[clname] = str_v[1:-1].replace('_', ' ')
+                    if flt_v:
+                        obj_kwargs[clname] = float(flt_v)
+                    if int_v:
+                        obj_kwargs[clname] = int(int_v)
+        else:
+            class_name = args
+        if not class_name:
             print("** class name missing **")
             return
-        elif args not in HBNBCommand.classes:
+        elif class_name not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
-        new_instance = HBNBCommand.classes[args]()
-        storage.save()
+        new_instance = HBNBCommand.classes[class_name]()
+        default_attrs = ['id', 'created_at', 'updated_at', '__class__']
+        for k, v in obj_kwargs.items():
+            if k not in default_attrs:
+                setattr(new_instance, k, v)
+        new_instance.save()
         print(new_instance.id)
-        storage.save()
 
     def help_create(self):
         """ Help information for the create method """
         print("Creates a class of any type")
-        print("[Usage]: create <className>\n")
+        print(
+                "[Usage]: create <Class name> \
+                [<param 1> <param 2> <param 3>...]\n")
 
     def do_show(self, args):
         """ Method to show an individual object """
