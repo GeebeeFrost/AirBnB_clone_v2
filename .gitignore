@@ -1,0 +1,6 @@
+# Python import cache
+__pycache__/
+
+# Auto saved files
+*~
+*.swp
