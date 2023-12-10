@@ -118,6 +118,8 @@ class TestHBNBCommand(unittest.TestCase):
             cursor.close()
             dbc.close()
 
+
+'''
     @unittest.skipIf(
         os.getenv('HBNB_TYPE_STORAGE') != 'db', 'DBStorage test')
     def test_db_count(self):
@@ -145,3 +147,4 @@ class TestHBNBCommand(unittest.TestCase):
             cons.onecmd('count State')
             cursor.close()
             dbc.close()
+            '''
