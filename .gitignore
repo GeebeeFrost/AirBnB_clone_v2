@@ -10,3 +10,6 @@ file.json
 
 # Test file
 main_place_amenities.py
+
+# Deployments
+versions/
