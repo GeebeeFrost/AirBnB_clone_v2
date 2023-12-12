@@ -1,6 +1,5 @@
 #!/usr/bin/python3
 """This module contains the do_pack() function"""
-
 from datetime import datetime
 from fabric.api import local
 from os.path import isdir
