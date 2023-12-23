@@ -6,10 +6,12 @@ from os.path import isdir, isfile
 
 env.hosts = ['52.91.135.55', '54.173.96.139']
 
+filename = ""
+
 
 def deploy():
     """Create and distribute an archive to web servers"""
-    archive = do_pack()
+    archive = do_pack() if not filename else filename
     if not archive:
         print("Error creating archive.")
         return False

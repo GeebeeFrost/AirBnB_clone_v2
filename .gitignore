@@ -10,6 +10,7 @@ file.json
 
 # Test file
 main_place_amenities.py
+w3c_validator.py
 
 # Deployments
 versions/
