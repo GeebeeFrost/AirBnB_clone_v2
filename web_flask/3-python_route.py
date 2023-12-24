@@ -23,5 +23,12 @@ def c_route(text):
     return "C {}".format(escape(text.replace('_', ' ')))
 
 
+@app.route("/python")
+@app.route("/python/<text>", strict_slashes=False)
+def python_route(text="is_cool"):
+    """Displays Python followed by text string or 'is cool'"""
+    return "Python {}".format(escape(text.replace('_', ' ')))
+
+
 if __name__ == "__main__":
     app.run()
