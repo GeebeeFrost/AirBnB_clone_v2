@@ -7,6 +7,9 @@ from sqlalchemy import Column, String, ForeignKey
 
 class Review(BaseModel, Base):
     """Defines a review"""
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
     if getenv("HBNB_TYPE_STORAGE") == 'db':
         __tablename__ = "reviews"
         text = Column(String(1024), nullable=False)

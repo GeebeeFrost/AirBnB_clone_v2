@@ -12,6 +12,9 @@ type_storage = getenv("HBNB_TYPE_STORAGE")
 
 class State(BaseModel, Base):
     """Defines a state"""
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
     if type_storage == 'db':
         __tablename__ = 'states'
         name = Column(String(128), nullable=False)
