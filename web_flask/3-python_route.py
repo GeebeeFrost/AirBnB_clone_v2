@@ -23,7 +23,7 @@ def c_route(text):
     return "C {}".format(escape(text.replace('_', ' ')))
 
 
-@app.route("/python")
+@app.route("/python", strict_slashes=False)
 @app.route("/python/<text>", strict_slashes=False)
 def python_route(text="is_cool"):
     """Displays Python followed by text string or 'is cool'"""
