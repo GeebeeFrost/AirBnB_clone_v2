@@ -16,8 +16,8 @@ class State(BaseModel, Base):
         __tablename__ = 'states'
         name = Column(String(128), nullable=False)
         cities = relationship(
-                "City", cascade="all, delete-orphan", backref="state"
-                )
+            "City", cascade="all, delete-orphan", backref="state"
+        )
     else:
         name = ""
 
@@ -28,7 +28,7 @@ class State(BaseModel, Base):
             equal to the current State.id"""
             all_cities = models.storage.all(City)
             state_cities = [
-                    city for city in all_cities.values()
-                    if obj.state_id == self.id
-                    ]
+                city for city in all_cities.values()
+                if city.state_id == self.id
+            ]
             return state_cities

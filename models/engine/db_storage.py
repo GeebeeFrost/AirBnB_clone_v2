@@ -18,9 +18,9 @@ host = getenv("HBNB_MYSQL_HOST")
 dbase = getenv("HBNB_MYSQL_DB")
 
 classes = {
-        "Amenity": Amenity, "City": City, "Place": Place, "Review": Review,
-        "State": State, "User": User
-        }
+    "Amenity": Amenity, "City": City, "Place": Place, "Review": Review,
+    "State": State, "User": User
+}
 
 
 class DBStorage:
@@ -30,9 +30,9 @@ class DBStorage:
 
     def __init__(self):
         self.__engine = create_engine(
-                "mysql+mysqldb://{}:{}@{}/{}".format(
-                    user, pwd, host, dbase), pool_pre_ping=True
-                )
+            "mysql+mysqldb://{}:{}@{}/{}".format(
+                user, pwd, host, dbase), pool_pre_ping=True
+        )
         if env == 'test':
             Base.metadata.drop_all(self.__engine)
 
@@ -79,6 +79,10 @@ class DBStorage:
         from models.amenity import Amenity
         Base.metadata.create_all(self.__engine)
         session_factory = sessionmaker(
-                bind=self.__engine, expire_on_commit=False
-                )
+            bind=self.__engine, expire_on_commit=False
+        )
         self.__session = scoped_session(session_factory)
+
+    def close(self):
+        """Closes the current session"""
+        self.__session.remove()
