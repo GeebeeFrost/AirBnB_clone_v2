@@ -18,11 +18,7 @@ def close_session(self):
 def cities_by_states():
     """Displays a HTML page with list of states and cities linked to them"""
     states = storage.all(State).values()
-    sorted_states = sorted(states, key=lambda k: k.name)
-    # Create a list of lists with inner list having state and list of cities
-    state_and_cities = [[state, sorted(state.cities, key=lambda k: k.name)]
-                        for state in sorted_states]
-    return render_template("8-cities_by_states.html", states=state_and_cities)
+    return render_template("8-cities_by_states.html", states=states)
 
 
 if __name__ == "__main__":
